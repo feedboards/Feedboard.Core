@@ -1,0 +1,41 @@
+{
+    "name": "feedboard.core",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack",
+        "watch": "webpack --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/feedboards/Feedboard.Core.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/feedboards/Feedboard.Core/issues"
+    },
+    "homepage": "https://github.com/feedboards/Feedboard.Core#readme",
+    "devDependencies": {
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.5.4",
+        "webpack": "^5.93.0",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "@azure/arm-eventhub": "^5.1.0",
+        "@azure/arm-resources": "^5.2.0",
+        "@azure/arm-subscriptions": "^5.1.0",
+        "@azure/event-hubs": "^5.12.0",
+        "@azure/identity": "^4.2.1",
+        "axios": "^1.7.2",
+        "os-browserify": "^0.3.0",
+        "path-browserify": "^1.0.1",
+        "util": "^0.12.5"
+    }
+}
