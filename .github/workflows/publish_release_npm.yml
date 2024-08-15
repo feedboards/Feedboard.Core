@@ -17,6 +17,11 @@ jobs:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Create .yarnrc
+        run: |
+          echo "https://registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > .yarnrc
+          echo "@username:registry=https://registry.npmjs.org/" >> .yarnrc
+
       - name: Update version in package.json
         run: |
           npm version ${{ github.ref_name }} --no-git-tag-version
@@ -30,4 +35,4 @@ jobs:
       - name: Publish
         run: yarn publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
