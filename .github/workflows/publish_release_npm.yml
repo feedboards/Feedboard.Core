@@ -15,8 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@feedboards'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Update version in package.json
         run: |
@@ -29,6 +28,6 @@ jobs:
         run: yarn build
 
       - name: Publish
-        run: yarn publish
+        run: yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
