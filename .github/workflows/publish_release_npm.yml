@@ -2,6 +2,7 @@ name: Publish Package
 
 on:
   release:
+    types: [created]
 
 jobs:
   build-and-publish:
@@ -16,6 +17,8 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
+          scope: '@feedboards'
+          always-auth: true
 
       - name: Create .yarnrc
         run: |
@@ -33,6 +36,6 @@ jobs:
         run: yarn build
 
       - name: Publish
-        run: yarn publish --access public
+        run: yarn publish --access public --non-interactive
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
