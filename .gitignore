@@ -26,3 +26,9 @@ yarn-error.log*
 dist/
 test.mjs
 /.idea
+
+# yarnrc/npmrc
+
+.yarnrc.yml
+.yarnrc
+.npmrc
