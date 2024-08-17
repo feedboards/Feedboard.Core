@@ -17,13 +17,12 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
-          scope: '@feedboards'
           always-auth: true
 
-      - name: Create .yarnrc
+      - name: Create .yarnrc.yml
         run: |
-          echo "https://registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > .yarnrc
-          echo "@username:registry=https://registry.npmjs.org/" >> .yarnrc
+          echo "npmAuthToke: "${{secrets.NPM_TOKEN}}"" > .yarnrc.yml
+          echo "npmRegistryServer: "https://registry.npmjs.org"" >> .yarnrc.yml
 
       - name: Update version in package.json
         run: |
