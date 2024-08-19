@@ -10,7 +10,7 @@ export class AzureToken implements TokenCredential {
     constructor(token: TAzureTokenResponseDto);
     constructor(token?: TAzureTokenResponseDto) {
         if (token) {
-            AzureToken._token = token;
+            this.addTokenOrUpdate(token);
         }
     }
 
@@ -46,7 +46,7 @@ export class AzureToken implements TokenCredential {
             throw new Error("token is expired");
         }
 
-        return new AzureToken();
+        return this;
     }
 
     public getActiveTokenAsResponseDto(): TAzureTokenResponseDto | null {
