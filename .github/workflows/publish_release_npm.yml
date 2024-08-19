@@ -23,10 +23,10 @@ jobs:
           npm version ${{ github.ref_name }} --no-git-tag-version
 
       - name: Install dependencies
-        run: npm install
+        run: npm i
 
       - name: Build
-        run: npm build
+        run: npm rum build
 
       - name: Publish
         run: npm publish --access public --non-interactive
