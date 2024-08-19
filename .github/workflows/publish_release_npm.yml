@@ -17,22 +17,10 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
-#          always-auth: true
-
-#      - name: Create .npmrc
-#        run: |
-#          echo "npmAuthToke: "${{secrets.NPM_TOKEN}}"" > .yarnrc.yml
-#          echo "npmRegistryServer: "https://registry.npmjs.org"" >> .yarnrc.yml
-
-#      - name: Update version in package.json
-#        run: |
-#          npm version ${{ github.ref_name }} --no-git-tag-version
-
-      - name: Extract version from tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
       - name: Update version in package.json
-        run: npm version ${{ env.VERSION }} --no-git-tag-version
+        run: |
+          npm version ${{ github.ref_name }} --no-git-tag-version
 
       - name: Install dependencies
         run: npm install
