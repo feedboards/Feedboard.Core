@@ -21,6 +21,7 @@ export class AzureEventHub {
     public startMonitoring(processEvents: ProcessEventsHandler, processError?: ProcessErrorHandler): void {
         if (CoreConstants.isMonitoring) {
             console.log('Monitoring is already active.');
+
             return;
         }
 

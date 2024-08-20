@@ -1,9 +1,9 @@
 import { AccessToken, GetTokenOptions } from '@azure/identity';
 import { TokenCredential } from '@azure/core-auth';
-import { TAzureTokenResponseDto } from '../DTOs';
+import { IToken, TAzureTokenResponseDto } from '../types';
 
-export class AzureToken implements TokenCredential {
-    private static _token: TAzureTokenResponseDto | null;
+export class AzureToken implements TokenCredential, IToken<AzureToken, TAzureTokenResponseDto> {
+    private static _token: TAzureTokenResponseDto | null = null;
     private static _isLogged: boolean = false;
 
     constructor();
@@ -16,25 +16,22 @@ export class AzureToken implements TokenCredential {
 
     /*
      * To get AzureToken instance use getActiveToken()
-     *
      * @returns AccessToken (not AzureToken instance)
      */
     public async getToken(
         scopes: string | string[],
         options?: GetTokenOptions | undefined
     ): Promise<AccessToken | null> {
-        if (AzureToken._token !== null && AzureToken.validateToken(AzureToken._token)) {
-            return {
-                token: AzureToken._token.accessToken,
-                expiresOnTimestamp: AzureToken.convertToTimestamp(
-                    AzureToken._token.accessTokenExpiredAt
-                ),
-            };
+        if (AzureToken._token === null || !AzureToken.validateToken(AzureToken._token)) {
+            throw new Error("Token is expired or invalid. Please refresh the token.");
         }
 
-        console.error('Token expired.');
-
-        return null;
+        return {
+            token: AzureToken._token.accessToken,
+            expiresOnTimestamp: AzureToken.convertToTimestamp(
+                AzureToken._token.accessTokenExpiredAt
+            ),
+        };
     }
 
     public isLogged(): boolean {
@@ -43,7 +40,7 @@ export class AzureToken implements TokenCredential {
 
     public getActiveToken(): AzureToken {
         if (!AzureToken.validateToken(AzureToken._token)) {
-            throw new Error("token is expired");
+            throw new Error("Token is expired or invalid. Please refresh the token.");
         }
 
         return this;
@@ -59,7 +56,7 @@ export class AzureToken implements TokenCredential {
 
     public addTokenOrUpdate(token: TAzureTokenResponseDto): AzureToken {
         if (AzureToken.validateToken(token)) {
-            throw new Error("token is expired");
+            throw new Error("Token is expired or invalid. Please refresh the token.");
         }
 
         AzureToken._token = token;

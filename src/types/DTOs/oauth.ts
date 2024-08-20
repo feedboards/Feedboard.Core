@@ -4,3 +4,12 @@ export type TAzureTokenResponseDto = {
     refreshToken: string;
     accessTokenExpiredAt: string;
 }
+
+export type TURLResponse = {
+    url: string;
+}
+
+export type TGithubTokenResponseDto = {
+    userId: string;
+    accessToken: string;
+};
