@@ -12,9 +12,9 @@ import { TEventHub, TEventHubConnectionString, TEventHubOAuth } from '../types';
 
 export class AzureEventHub {
     private _client: EventHubConsumerClient;
-    private _eventHub: TEventHub
+    private _eventHub: TEventHub;
     private _subscription: Subscription | undefined;
-    private _isMonitoring: boolean = false
+    private _isMonitoring: boolean = false;
 
     public isMonitoring(): boolean {
         return this._isMonitoring;
@@ -31,7 +31,7 @@ export class AzureEventHub {
     public startMonitoringByConnectionString(
         eventHub: TEventHubConnectionString,
         processEvents: ProcessEventsHandler,
-        processError?: ProcessErrorHandler,
+        processError?: ProcessErrorHandler
     ): void {
         this._client = new EventHubConsumerClient(
             eventHub.consumerGroupName,
@@ -40,14 +40,14 @@ export class AzureEventHub {
         );
 
         this.updateOrAddEventHubData(eventHub);
-        this.startMonitoring(processEvents, processError);
+        this._startMonitoring(processEvents, processError);
     }
 
     public async startMonitoringByOAuth(
         eventHub: TEventHubOAuth,
         credential: TokenCredential,
         processEvents: ProcessEventsHandler,
-        processError?: ProcessErrorHandler,
+        processError?: ProcessErrorHandler
     ): Promise<void> {
         const azureClient: AzureClient = new AzureClient(credential);
         const rules: AuthorizationRule[] = await azureClient.getAuthorizationRules(
@@ -64,7 +64,7 @@ export class AzureEventHub {
         const defaultRule: AuthorizationRule = rules.find((x) => x.name === 'RootManageSharedAccessKey');
 
         if (!defaultRule) {
-            return
+            return;
         }
 
         const key = await azureClient.getKeys(
@@ -85,7 +85,7 @@ export class AzureEventHub {
         );
 
         this.updateOrAddEventHubData(eventHub);
-        this.startMonitoring(processEvents, processError);
+        this._startMonitoring(processEvents, processError);
     }
 
     public async stopMonitoring(): Promise<void> {
@@ -102,7 +102,7 @@ export class AzureEventHub {
         }
     }
 
-    private startMonitoring(processEvents: ProcessEventsHandler, processError?: ProcessErrorHandler): void {
+    private _startMonitoring(processEvents: ProcessEventsHandler, processError?: ProcessErrorHandler): void {
         if (this._isMonitoring) {
             console.log('Monitoring is already active.');
 

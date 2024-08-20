@@ -25,7 +25,7 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure login URL.
      */
     public static async getAzureLoginURI(): Promise<AxiosResponse<TURLResponse>> {
-        this.checkClient();
+        this._checkClient();
 
         return await axios.get('/AzureOAuth/login-url');
     }
@@ -37,10 +37,10 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure token response.
      */
     public static async getAzureToken(code: string, state: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
-        this.checkClient();
+        this._checkClient();
 
         return await axios.get('/AzureOAuth/process-code', {
-            params: { code, state }
+            params: { code, state },
         });
     }
 
@@ -50,10 +50,10 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure token response.
      */
     public static async updateAzureAccessToken(refreshToken: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
-        this.checkClient();
+        this._checkClient();
 
         return await axios.get('/AzureOAuth/update-access-token', {
-            params: { refreshToken }
+            params: { refreshToken },
         });
     }
 
@@ -62,7 +62,7 @@ export class Feedboard {
      * @returns A promise that resolves to the GitHub login URL.
      */
     public static async getGitHubLoginURI(): Promise<AxiosResponse<TURLResponse>> {
-        this.checkClient();
+        this._checkClient();
 
         return await axios.get('/GitHubOauth/login');
     }
@@ -73,17 +73,17 @@ export class Feedboard {
      * @returns A promise that resolves to the GitHub token response.
      */
     public static async getGitHubAccessToken(code: string): Promise<AxiosResponse<TGithubTokenResponseDto>> {
-        this.checkClient();
+        this._checkClient();
 
         return await this._client.get('/GitHubOauth/callback', {
-            params: { code }
+            params: { code },
         });
     }
 
     /*
      * Checks if the base URI has been set and throws an error if not.
      */
-    private static checkClient(): void {
+    private static _checkClient(): void {
         if (this._client === null) {
             throw new Error('Please initialize it first.');
         }
