@@ -39,19 +39,19 @@ export class AzureToken implements TokenCredential, IToken<AzureToken, TAzureTok
     }
 
     public getActiveToken(): AzureToken {
-        if (!AzureToken.validateToken(AzureToken._token)) {
+        if (AzureToken._token === null || !AzureToken.validateToken(AzureToken._token)) {
             throw new Error("Token is expired or invalid. Please refresh the token.");
         }
 
         return this;
     }
 
-    public getActiveTokenAsResponseDto(): TAzureTokenResponseDto | null {
-        if (AzureToken._token !== null && AzureToken.validateToken(AzureToken._token)) {
-            return AzureToken._token
+    public getActiveTokenAsResponseDto(): TAzureTokenResponseDto {
+        if (AzureToken._token === null || !AzureToken.validateToken(AzureToken._token)) {
+            throw new Error("Token is expired or invalid. Please refresh the token.");
         }
 
-        return null;
+        return AzureToken._token;
     }
 
     public addTokenOrUpdate(token: TAzureTokenResponseDto): AzureToken {
