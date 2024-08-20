@@ -1,4 +1,4 @@
-import { TAzureTokenResponseDto, TURLResponse } from '../types';
+import { TAzureTokenResponseDto, TGithubTokenResponseDto, TURLResponse } from '../types';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 /*
@@ -72,7 +72,7 @@ export class Feedboard {
      * @param code The code returned by GitHub after user authorization.
      * @returns A promise that resolves to the GitHub token response.
      */
-    public static async getGitHubAccessToken(code: string): Promise<AxiosResponse<TURLResponse>> {
+    public static async getGitHubAccessToken(code: string): Promise<AxiosResponse<TGithubTokenResponseDto>> {
         this.checkClient();
 
         return await this._client.get('/GitHubOauth/callback', {
