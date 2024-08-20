@@ -21,7 +21,7 @@ export class GithubToken implements IToken<GithubToken, TGithubTokenResponseDto>
         return this;
     }
 
-    public getActiveTokenAsResponseDto(): TGithubTokenResponseDto | null {
+    public getActiveTokenAsResponseDto(): TGithubTokenResponseDto {
         // TODO validate token
         return GithubToken._token;
     }

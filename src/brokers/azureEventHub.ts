@@ -16,7 +16,7 @@ export class AzureEventHub {
     private _subscription: Subscription | undefined;
     private _isMonitoring: boolean = false
 
-    public getIsMonitoring(): boolean {
+    public isMonitoring(): boolean {
         return this._isMonitoring;
     }
 
