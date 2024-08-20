@@ -2,7 +2,7 @@ import {
     ELoginType,
     TConnectionSettingsAzureConnectionString,
     TConnectionSettingsAzureOAuth,
-} from '../types/connection';
+} from '../types';
 
 export const isTConnectionSettingsAzureOAuth = (obj: any): obj is TConnectionSettingsAzureOAuth => {
     return obj && typeof obj === 'object' && obj.loginType === ELoginType.azureOAuth;
