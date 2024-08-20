@@ -7,6 +7,12 @@
     "types": "dist/index.d.ts",
     "type": "module",
     "private": false,
+    "exports": {
+        ".": {
+            "require": "./dist/cjs/index.js",
+            "import": "./dist/esm/index.js"
+        }
+    },
     "files": [
         "dist",
         "README.md"
@@ -15,8 +21,12 @@
         "registry": "https://registry.npmjs.org"
     },
     "scripts": {
-        "build": "npx tsc",
-        "watch": "npx tsc --watch"
+        "build:cjs": "npx tsc -p tsconfig.cjs.json",
+        "build:esm": "npx tsc -p tsconfig.esm.json",
+        "build": "npm run build:cjs && npm run build:esm",
+        "watch:cjs": "tsc -p tsconfig.cjs.json --watch",
+        "watch:esm": "tsc -p tsconfig.esm.json --watch",
+        "watch": "npm run watch:cjs & npm run watch:esm"
     },
     "repository": {
         "type": "git",

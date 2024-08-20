@@ -1,13 +1,15 @@
 {
-    "exclude": ["node_modules", "dist"],
     "compilerOptions": {
         "module": "ES6",
-        "target": "ES6",
+        "target": "ESNext",
         "declaration": true,
-        "moduleDetection": "force",
+        "outDir": "./dist",
         "moduleResolution": "node",
-        "outDir": "dist",
-        "skipLibCheck": false,
-        "strict": false
-    }
+        "strict": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "dist"],
+    "include": ["src"]
 }
