@@ -16,7 +16,7 @@ export class Feedboard {
      */
     public static init(baseURL: string) {
         this._client = axios.create({
-            baseURL,
+            baseURL: baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`,
         });
     }
 
@@ -27,7 +27,7 @@ export class Feedboard {
     public static async getAzureLoginURI(): Promise<AxiosResponse<TURLResponse>> {
         this._checkClient();
 
-        return await axios.get('/AzureOAuth/login-url');
+        return await axios.get('/auth/azure/login-url');
     }
 
     /*
@@ -39,7 +39,7 @@ export class Feedboard {
     public static async getAzureToken(code: string, state: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
         this._checkClient();
 
-        return await axios.get('/AzureOAuth/process-code', {
+        return await axios.get('/auth/azure/callback', {
             params: { code, state },
         });
     }
@@ -52,7 +52,7 @@ export class Feedboard {
     public static async updateAzureAccessToken(refreshToken: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
         this._checkClient();
 
-        return await axios.get('/AzureOAuth/update-access-token', {
+        return await axios.get('/auth/azure/refresh', {
             params: { refreshToken },
         });
     }
@@ -64,7 +64,7 @@ export class Feedboard {
     public static async getGitHubLoginURI(): Promise<AxiosResponse<TURLResponse>> {
         this._checkClient();
 
-        return await axios.get('/GitHubOauth/login');
+        return await axios.get('/auth/github/login-url');
     }
 
     /*
@@ -75,7 +75,7 @@ export class Feedboard {
     public static async getGitHubAccessToken(code: string): Promise<AxiosResponse<TGithubTokenResponseDto>> {
         this._checkClient();
 
-        return await this._client.get('/GitHubOauth/callback', {
+        return await this._client.get('/auth/github/callback', {
             params: { code },
         });
     }
