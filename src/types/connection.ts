@@ -5,7 +5,7 @@ export type TConnection = {
 };
 
 export type TConnectionSettingsAzureConnectionString = TConnectionSettingsAzure & {
-    connectionString?: string;
+    connectionString: string;
 };
 
 export type TConnectionSettingsAzureOAuth = TConnectionSettingsAzure & {
