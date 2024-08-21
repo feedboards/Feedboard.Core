@@ -2,23 +2,36 @@
     "name": "@feedboard/feedboard.core",
     "version": "0.0.8",
     "description": "",
-    "main": "dist/index.js",
-    "module": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/esm/index.d.ts",
     "type": "module",
     "private": false,
+    "author": "",
+    "license": "ISC",
     "exports": {
+        "./package.json": "./package.json",
         ".": {
-            "require": "./dist/cjs/index.js",
-            "import": "./dist/esm/index.js"
+            "import": {
+                "types": "./dist/esm/index.d.ts",
+                "default": "./dist/esm/index.js"
+            },
+            "require": {
+                "types": "./dist/cjs/index.d.ts",
+                "default": "./dist/cjs/index.js"
+            }
         }
     },
     "files": [
         "dist",
-        "README.md"
+        "README.md",
+        "LICENSE"
     ],
     "publishConfig": {
         "registry": "https://registry.npmjs.org"
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "scripts": {
         "build:cjs": "npx tsc -p tsconfig.cjs.json",
@@ -28,17 +41,17 @@
         "watch:esm": "tsc -p tsconfig.esm.json --watch",
         "watch": "npm run watch:cjs & npm run watch:esm"
     },
+    "keywords": [
+        "feedboard"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/feedboards/Feedboard.Core.git"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "homepage": "https://github.com/feedboards/Feedboard.Core#readme",
     "bugs": {
         "url": "https://github.com/feedboards/Feedboard.Core/issues"
     },
-    "homepage": "https://github.com/feedboards/Feedboard.Core#readme",
     "devDependencies": {
         "@types/node": "^22.4.0",
         "ts-loader": "^9.5.1",
