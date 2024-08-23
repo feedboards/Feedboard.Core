@@ -12,11 +12,9 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the error or bug (describe steps like that):
-1. Version of plugin (necessary)
-2. Go to '...'
-3. Click on '....'
-4. Scroll down to '....'
-5. See an error
+1. Version of library (necessary)
+2. Execute method/function with args '...'
+3. See an error
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
