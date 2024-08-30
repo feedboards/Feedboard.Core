@@ -6,9 +6,12 @@ import {
     earliestEventPosition,
 } from '@azure/event-hubs';
 import { AuthorizationRule } from '@azure/arm-eventhub';
-import { TokenCredential } from '@azure/identity';
 import { AzureClient } from '../clients';
-import { TEventHub, TEventHubConnectionString, TEventHubOAuth } from '../types';
+import {
+    TEventHub,
+    TStartMonitoringByConnectionString,
+    TStartMonitoringByOAuth,
+} from '../types';
 
 export class AzureEventHub {
     private _client: EventHubConsumerClient;
@@ -28,32 +31,23 @@ export class AzureEventHub {
         this._eventHub = eventHub;
     }
 
-    public startMonitoringByConnectionString(
-        eventHub: TEventHubConnectionString,
-        processEvents: ProcessEventsHandler,
-        processError?: ProcessErrorHandler
-    ): void {
+    public startMonitoringByConnectionString(obj: TStartMonitoringByConnectionString): void {
         this._client = new EventHubConsumerClient(
-            eventHub.consumerGroupName,
-            eventHub.connectionString,
-            eventHub.eventHubName
+            obj.eventHub.consumerGroupName,
+            obj.eventHub.connectionString,
+            obj.eventHub.eventHubName
         );
 
-        this.updateOrAddEventHubData(eventHub);
-        this._startMonitoring(processEvents, processError);
+        this.updateOrAddEventHubData(obj.eventHub);
+        this._startMonitoring(obj.processEvents, obj.processError);
     }
 
-    public async startMonitoringByOAuth(
-        eventHub: TEventHubOAuth,
-        credential: TokenCredential,
-        processEvents: ProcessEventsHandler,
-        processError?: ProcessErrorHandler
-    ): Promise<void> {
-        const azureClient: AzureClient = new AzureClient(credential);
+    public async startMonitoringByOAuth(obj: TStartMonitoringByOAuth): Promise<void> {
+        const azureClient: AzureClient = new AzureClient(obj.credential);
         const rules: AuthorizationRule[] = await azureClient.getAuthorizationRules(
-            eventHub.subscriptionId,
-            eventHub.resourceGroupName,
-            eventHub.namespaceName
+            obj.eventHub.subscriptionId,
+            obj.eventHub.resourceGroupName,
+            obj.eventHub.namespaceName
         );
 
         if (!rules) {
@@ -68,9 +62,9 @@ export class AzureEventHub {
         }
 
         const key = await azureClient.getKeys(
-            eventHub.subscriptionId,
-            eventHub.resourceGroupName,
-            eventHub.namespaceName,
+            obj.eventHub.subscriptionId,
+            obj.eventHub.resourceGroupName,
+            obj.eventHub.namespaceName,
             defaultRule.name
         );
 
@@ -79,18 +73,19 @@ export class AzureEventHub {
         }
 
         this._client = new EventHubConsumerClient(
-            eventHub.consumerGroupName,
+            obj.eventHub.consumerGroupName,
             key.primaryConnectionString,
-            eventHub.eventHubName
+            obj.eventHub.eventHubName
         );
 
-        this.updateOrAddEventHubData(eventHub);
-        this._startMonitoring(processEvents, processError);
+        this.updateOrAddEventHubData(obj.eventHub);
+        this._startMonitoring(obj.processEvents, obj.processError);
     }
 
     public async stopMonitoring(): Promise<void> {
         if (this._subscription) {
             await this._subscription.close();
+
             this._isMonitoring = false;
         }
     }
@@ -98,6 +93,7 @@ export class AzureEventHub {
     public async closeClient(): Promise<void> {
         if (this._client) {
             await this._client.close();
+
             this._isMonitoring = false;
         }
     }
@@ -120,10 +116,7 @@ export class AzureEventHub {
 
             this._subscription = this._client.subscribe(
                 {
-                    processEvents: (events, context) => {
-                        console.log(`Processing event at ${new Date().toISOString()}: `, events);
-                        return processEvents(events, context);
-                    },
+                    processEvents,
                     processError: handleError,
                 },
                 { startPosition: earliestEventPosition }
