@@ -1,1 +1,6 @@
-Documentation on the [Github Wiki](https://github.com/feedboards/Feedboard.Core/wiki)
+# Documentation
+
+> [!WARNING]
+> documentation is currently being written.
+
+-   [`setup environmnet`](./docs/SetupEnvironment.md)
