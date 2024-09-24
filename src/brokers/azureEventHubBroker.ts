@@ -13,7 +13,7 @@ import {
     TStartMonitoringByOAuth,
 } from '../types';
 
-export class AzureEventHub {
+export class AzureEventHubBroker {
     private _client: EventHubConsumerClient;
     private _eventHub: TEventHub;
     private _subscription: Subscription | undefined;
@@ -83,7 +83,7 @@ export class AzureEventHub {
     }
 
     public async stopMonitoring(): Promise<void> {
-        if (this._subscription) {
+        if (this._subscription && this._isMonitoring) {
             await this._subscription.close();
 
             this._isMonitoring = false;
@@ -92,9 +92,11 @@ export class AzureEventHub {
 
     public async closeClient(): Promise<void> {
         if (this._client) {
-            await this._client.close();
+            if (this._isMonitoring) {
+                await this.stopMonitoring();
+            }
 
-            this._isMonitoring = false;
+            await this._client.close();
         }
     }
 

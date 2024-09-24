@@ -22,7 +22,7 @@ npm run watch
 
 # Test in console
 
-Create in root folder `test.mjs` file then import
+Create in root folder `test.cjs` file then import
 
 ```js
 import { ... } from './dist/index.js'
@@ -33,5 +33,5 @@ import { ... } from './dist/index.js'
 run
 
 ```bash
-node ./test.mjs
+node ./test.cjs
 ```
