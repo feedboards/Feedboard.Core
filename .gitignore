@@ -33,4 +33,5 @@ test.cjs
 .yarnrc.yml
 .yarnrc
 .npmrc
-docker/mosquitto/data/mosquitto.db
+docker/mosquitto/data
+docker/mosquitto/log

@@ -1,15 +1,18 @@
 export type TConnection = {
     id: string;
     name: string;
-    loginType: ELoginType;
     settings: TConnectionSettingsAzureConnectionString | TConnectionSettingsAzureOAuth | TConnectionMQTT;
 };
 
-export type TConnectionSettingsAzureConnectionString = {
+type TBaseConnection = {
+    loginType: ELoginType;
+}
+
+export type TConnectionSettingsAzureConnectionString = TBaseConnection & {
     connectionString: string;
 };
 
-export type TConnectionSettingsAzureOAuth = {
+export type TConnectionSettingsAzureOAuth = TBaseConnection & {
     subscription: TSubscription;
     resourceGroup: TData;
     namespace: TData;
@@ -17,7 +20,7 @@ export type TConnectionSettingsAzureOAuth = {
     consumerGroup: TData;
 };
 
-export type TConnectionMQTT = {
+export type TConnectionMQTT = TBaseConnection & {
     host: string;
     topic?: string;
 };
