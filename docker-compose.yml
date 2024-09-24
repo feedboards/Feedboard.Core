@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mqtt.mosquitto:
+    image: eclipse-mosquitto
+    container_name: mqtt5-mosquitto
+    ports:
+      - '1883:1883' # default mqtt port
+      - '9001:9001' # default mqtt port for websockets
+    volumes:
+      - ./docker/mosquitto/config:/mosquitto/config:rw
+      - ./docker/mosquitto/data:/mosquitto/data:rw
+      - ./docker/mosquitto/log:/mosquitto/log:rw
+    restart: unless-stopped
