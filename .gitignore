@@ -25,6 +25,7 @@ yarn-error.log*
 
 dist/
 test.mjs
+test.cjs
 /.idea
 
 # yarnrc/npmrc
