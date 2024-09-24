@@ -1,7 +1,11 @@
 export type TConnection = {
     id: string;
     name: string;
-    settings: TConnectionSettingsAzureConnectionString | TConnectionSettingsAzureOAuth;
+    settings: TConnectionSettingsAzureConnectionString | TConnectionSettingsAzureOAuth | TConnectionMQTT;
+};
+
+export type TConnectionSettingsAzure = {
+    loginType: ELoginType;
 };
 
 export type TConnectionSettingsAzureConnectionString = TConnectionSettingsAzure & {
@@ -16,14 +20,10 @@ export type TConnectionSettingsAzureOAuth = TConnectionSettingsAzure & {
     consumerGroup: TData;
 };
 
-export type TConnectionSettingsAzure = {
-    loginType: ELoginType;
+export type TConnectionMQTT = {
+    host: string;
+    topic?: string;
 };
-
-export enum ELoginType {
-    azureOAuth = 'azureOAuth',
-    connectionString = 'connectionString',
-}
 
 type TSubscription = {
     readonly subscriptionId?: string;
@@ -35,3 +35,9 @@ type TData = {
     readonly id?: string;
     readonly name?: string;
 };
+
+export enum ELoginType {
+    azureOAuth = 'azureOAuth',
+    connectionString = 'connectionString',
+    mqtt = 'mqtt',
+}
