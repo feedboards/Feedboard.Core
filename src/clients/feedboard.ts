@@ -9,15 +9,33 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
  */
 export class Feedboard {
     private static _client: AxiosInstance | null = null;
+    private static _baseUrl: string | null = null;
+
+    /*
+     * get baseUrl of the axios client
+     */
+    public get baseUrl(): string | null {
+        return this.baseUrl;
+    }
 
     /*
      * Initializes the axios client for the Feedboard API.
-     * @param baseUri The base URL to set.
+     * @param baseUrl The base URL to set.
      */
-    public static init(baseURL: string) {
+    public static init(baseURL: string): void {
+        this._baseUrl = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
+
         this._client = axios.create({
-            baseURL: baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`,
+            baseURL: this._baseUrl,
         });
+    }
+
+    /*
+     * Update baseUrl of the axios client
+     * @param baseUrl The base URL to set.
+     */
+    public static updateBaseUrl(baseURL: string): void {
+        this.init(baseURL);
     }
 
     /*
