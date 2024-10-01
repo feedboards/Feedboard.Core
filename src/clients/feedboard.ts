@@ -23,8 +23,7 @@ export class Feedboard {
      * @param baseUrl The base URL to set.
      */
     public static init(baseURL: string): void {
-        Feedboard._baseUrl = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
-
+        Feedboard._baseUrl = baseURL;
         Feedboard._client = axios.create({
             baseURL: Feedboard._baseUrl,
         });
