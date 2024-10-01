@@ -14,7 +14,7 @@ export class Feedboard {
     /*
      * get baseUrl of the axios client
      */
-    public get baseUrl(): string | null {
+    public static get baseUrl(): string | null {
         return this.baseUrl;
     }
 
