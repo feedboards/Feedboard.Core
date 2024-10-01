@@ -15,7 +15,7 @@ export class Feedboard {
      * get baseUrl of the axios client
      */
     public static get baseUrl(): string | null {
-        return this.baseUrl;
+        return Feedboard._baseUrl;
     }
 
     /*
@@ -23,10 +23,10 @@ export class Feedboard {
      * @param baseUrl The base URL to set.
      */
     public static init(baseURL: string): void {
-        this._baseUrl = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
+        Feedboard._baseUrl = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
 
-        this._client = axios.create({
-            baseURL: this._baseUrl,
+        Feedboard._client = axios.create({
+            baseURL: Feedboard._baseUrl,
         });
     }
 
@@ -35,7 +35,7 @@ export class Feedboard {
      * @param baseUrl The base URL to set.
      */
     public static updateBaseUrl(baseURL: string): void {
-        this.init(baseURL);
+        Feedboard.init(baseURL);
     }
 
     /*
@@ -43,7 +43,7 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure login URL.
      */
     public static async getAzureLoginURI(): Promise<AxiosResponse<TURLResponse>> {
-        this._checkClient();
+        Feedboard._checkClient();
 
         return await axios.get('/auth/azure/login-url');
     }
@@ -55,7 +55,7 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure token response.
      */
     public static async getAzureToken(code: string, state: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
-        this._checkClient();
+        Feedboard._checkClient();
 
         return await axios.get('/auth/azure/callback', {
             params: { code, state },
@@ -68,7 +68,7 @@ export class Feedboard {
      * @returns A promise that resolves to the Azure token response.
      */
     public static async updateAzureAccessToken(refreshToken: string): Promise<AxiosResponse<TAzureTokenResponseDto>> {
-        this._checkClient();
+        Feedboard._checkClient();
 
         return await axios.get('/auth/azure/refresh', {
             params: { refreshToken },
@@ -80,7 +80,7 @@ export class Feedboard {
      * @returns A promise that resolves to the GitHub login URL.
      */
     public static async getGitHubLoginURI(): Promise<AxiosResponse<TURLResponse>> {
-        this._checkClient();
+        Feedboard._checkClient();
 
         return await axios.get('/auth/github/login-url');
     }
@@ -91,9 +91,9 @@ export class Feedboard {
      * @returns A promise that resolves to the GitHub token response.
      */
     public static async getGitHubAccessToken(code: string): Promise<AxiosResponse<TGithubTokenResponseDto>> {
-        this._checkClient();
+        Feedboard._checkClient();
 
-        return await this._client.get('/auth/github/callback', {
+        return await Feedboard._client.get('/auth/github/callback', {
             params: { code },
         });
     }
@@ -102,7 +102,7 @@ export class Feedboard {
      * Checks if the base URI has been set and throws an error if not.
      */
     private static _checkClient(): void {
-        if (this._client === null) {
+        if (Feedboard._client === null) {
             throw new Error('Please initialize it first.');
         }
     }
